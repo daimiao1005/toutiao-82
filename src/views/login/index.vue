@@ -6,7 +6,7 @@
       </div>
       <!-- 表单组件el-form表单容器 -->
       <!-- 数据校验需要给el-form一个model属性 是数据对象 -->
-      <el-form :model="loginForm" :rules="loginRules" style="margin-top:30px">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" style="margin-top:30px">
         <!-- 表单项  -->
         <el-form-item prop="mobile">
           <!-- 放置组件内容 -->
@@ -77,7 +77,15 @@ export default {
     }
   },
   methods: {
-    login: function () {}
+    login: function () {
+      this.$refs.loginForm.validate((isOk, obj) => {
+        if (isOk) {
+          this.$message({ type: 'success', message: '成功' })
+        } else {
+          this.$message({ type: 'warning', message: '失败' })
+        }
+      })
+    }
   }
 }
 </script>
