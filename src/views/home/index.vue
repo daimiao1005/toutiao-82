@@ -2,13 +2,15 @@
   <!-- 外层组件 -->
   <el-container>
     <!-- 左侧 -->
-    <el-aside>
+    <el-aside style="width:200px">
       <layout-aside></layout-aside>
     </el-aside>
-    <lay-header></lay-header>
+    <!-- 右侧完整 -->
     <el-container>
       <!-- 右侧头部 -->
-      <el-header>头部</el-header>
+      <el-header>
+        <lay-header></lay-header>
+      </el-header>
       <!-- 右侧主体 -->
       <el-main>主体</el-main>
     </el-container>
