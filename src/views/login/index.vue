@@ -80,9 +80,26 @@ export default {
     login: function () {
       this.$refs.loginForm.validate((isOk, obj) => {
         if (isOk) {
-          this.$message({ type: 'success', message: '成功' })
-        } else {
-          this.$message({ type: 'warning', message: '失败' })
+          // 请求
+          this.$axios({
+            // axios中data放置body参数,params是放置地址参数的
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginForm
+            // 这个请求执行完之后获取的是promise对象需要在.then中获取结果
+          }).then(result => {
+            // 为了检查是否成功
+            // console.log(result.data.data.token)
+            // 放到前端缓存中
+            window.localStorage.setItem('user-token', result.data.data.token)
+            this.$router.push('/')// 编程式导航
+          }).catch((err) => {
+            // debugger
+            console.log(err)
+            this.$message({
+              message: '手机号或者验证码错误',
+              type: 'warning' })// 错误的话提示用户
+          })
         }
       })
     }
