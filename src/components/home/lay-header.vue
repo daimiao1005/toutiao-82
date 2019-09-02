@@ -8,10 +8,10 @@
 
     <!-- 顶部右侧内容 -->
     <el-col :span="3" class="right">
-      <img class="head_img" src="../../assets/img/avatar.jpg" alt />
+      <img class="head_img" :src="userInfo.photo ? userInfo.photo : defaultImg" alt />
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
-          82就业
+          {{userInfo.name}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -25,7 +25,29 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      userInfo: {},
+      defaultImg: require('../../assets/img/avatar.jpg')// 转成base64字符串
+    }
+  },
+  methods: {
+    getUserInfo () {
+      let token = window.localStorage.getItem('user-token')// 获取token
+      this.$axios({
+        url: 'user/profile',
+        headers: { 'Authorization': `Bearer ${token}` }
+      }).then(result => {
+        console.log(result)
+        this.userInfo = result.data.data
+      }).catch()
+    }
+  },
+  created () {
+    this.getUserInfo()
+  }
+}
 </script>
 
 <style lang="less" scoped>
